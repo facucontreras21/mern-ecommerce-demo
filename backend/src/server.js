@@ -6,6 +6,7 @@ import routes from "./routes/index.js";
 import { errorHandler, notFound } from "./middlewares/errorMiddleware.js";
 import connectDB from "./config/db.js";
 import path from "path";
+import cors from "cors";
 
 const server = express();
 
@@ -18,12 +19,7 @@ if (config.nodeEnv === "development") {
 //DB connection
 connectDB();
 
-server.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "content-type, authorization");
-  res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, HEAD");
-  return next();
-});
+server.use(cors());
 //use routes
 server.use(config.api.prefix, routes);
 

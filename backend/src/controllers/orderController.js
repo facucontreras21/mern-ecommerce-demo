@@ -26,7 +26,7 @@ export const addOrderItems = asyncHandler(async (req, res) => {
   } else {
 
     const order = new Order({
-      user: req.user._id, //error
+      user: req.user._id,
       orderItems,
       shippingAddress,
       paymentMethod,
@@ -94,11 +94,7 @@ export const updateOrderToDelivered = asyncHandler(async (req, res) => {
 //@access Private
 export const getMyOrders = asyncHandler(async (req, res) => {
     const ordersOfUser = await Order.find({ user: req.user._id });
-    if (!ordersOfUser) {
-      res.status(404).json({ message: "No Orders" });
-    } else {
-      return res.status(200).json(ordersOfUser);
-    }
+    res.status(200).json(ordersOfUser);
   });
   //@desc Get all orders
   //@route GET api/orders
@@ -108,9 +104,5 @@ export const getMyOrders = asyncHandler(async (req, res) => {
       path: "user",
       select: "id name",
     });
-    if (!orders) {
-      res.status(404).json({ message: "No Orders" });
-    } else {
-      return res.status(200).json(orders);
-    }
+    res.status(200).json(orders);
   });

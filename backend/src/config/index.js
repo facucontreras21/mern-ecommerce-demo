@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const config={
-    nodeEnv: process.env.NODE_ENV,
+    nodeEnv: process.env.NODE_ENV || "development",
     port: parseInt(process.env.PORT,10)||5000,
     databaseURL: process.env.MONGO_URI,
     jwtSecret: process.env.JWT_SECRET,

@@ -88,7 +88,7 @@ export const updateUserProfile = asyncHandler(async (req, res) => {
       name: userExists.name,
       email: userExists.email,
       isAdmin: userExists.isAdmin,
-      token: userExists.token,
+      token: generateToken(user._id),
     });
   } else {
     res.status(404);
@@ -119,7 +119,6 @@ export const getUserById = asyncHandler(async (req, res) => {
       name: userExists.name,
       email: userExists.email,
       isAdmin: userExists.isAdmin,
-      token: userExists.token,
     });
   else res.status(404).json({ message: "User not found" });
 });
