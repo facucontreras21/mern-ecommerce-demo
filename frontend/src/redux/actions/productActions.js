@@ -61,16 +61,17 @@ export const listProductsTop = () => {
 export const productById = (id) => {
   return async (dispatch) => {
     try {
-      dispatch({ type: actionTypes.PRODUCTS_TOP_REQUEST });
-      const data = await getProductsById(id); //observacion :: cambiar nombre a "data"
+      dispatch({ type: actionTypes.PRODUCT_BY_ID_REQUEST });
+
+      const data = await getProductsById(id);
+
       dispatch({
-        type: actionTypes.PRODUCTS_TOP_SUCCESS,
-        payload: data.productExists,
+        type: actionTypes.PRODUCT_BY_ID_SUCCESS,
+        payload: data,
       });
-      //console.log(data);
     } catch (error) {
       dispatch({
-        type: actionTypes.PRODUCTS_TOP_FAIL,
+        type: actionTypes.PRODUCT_BY_ID_FAIL,
         payload:
           error.response && error.response.data.message
             ? error.response.data.message

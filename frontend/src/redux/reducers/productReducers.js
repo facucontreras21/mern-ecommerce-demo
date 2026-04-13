@@ -42,16 +42,18 @@ export const productByIdReducer = (
   action
 ) => {
   switch (action.type) {
-    case actionTypes.PRODUCTS_TOP_REQUEST:
+    case actionTypes.PRODUCT_BY_ID_REQUEST:
       return { loading: true, productByIdFound: {} };
-    case actionTypes.PRODUCTS_TOP_SUCCESS:
+
+    case actionTypes.PRODUCT_BY_ID_SUCCESS:
       return {
         loading: false,
         productByIdFound: action.payload,
       };
 
-    case actionTypes.PRODUCTS_TOP_FAIL:
+    case actionTypes.PRODUCT_BY_ID_FAIL:
       return { loading: false, error: action.payload };
+
     default:
       return state;
   }
