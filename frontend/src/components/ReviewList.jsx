@@ -1,19 +1,18 @@
 import React from "react";
 import { Card } from "react-bootstrap";
 
-import { Col, Row } from "react-bootstrap";
-
 const ReviewList = ({ review }) => {
   return (
-    <>
-      <Card className="my-3 p-3 rounded">
-        <Card.Body>
-          <Card.Text as="h3">$ {review.name}</Card.Text>
-          <Card.Text as="h3">$ {review.rating}</Card.Text>
-          <Card.Text as="h3">$ {review.comment}</Card.Text>
-        </Card.Body>
-      </Card>
-    </>
+    <Card className="review-card border-0 h-100">
+      <Card.Body>
+        <div className="review-card__header">
+          <h5 className="review-card__name">{review.name}</h5>
+          <span className="review-card__rating">⭐ {review.rating}/5</span>
+        </div>
+
+        <p className="review-card__comment">{review.comment}</p>
+      </Card.Body>
+    </Card>
   );
 };
 

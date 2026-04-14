@@ -2,14 +2,16 @@ import React, { useState } from "react";
 import { Container, Form, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-const LoginPage = () => {
+const SignUpPage = () => {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const submitHandler = (e) => {
     e.preventDefault();
 
-    console.log("LOGIN DATA:", {
+    console.log("REGISTER DATA:", {
+      name,
       email,
       password,
     });
@@ -19,15 +21,26 @@ const LoginPage = () => {
     <main className="page-shell">
       <Container>
         <section className="auth-shell">
-          <span className="section-kicker">Account</span>
+          <span className="section-kicker">Create account</span>
 
-          <h1 className="auth-title">Login</h1>
+          <h1 className="auth-title">Sign Up</h1>
 
           <p className="auth-subtitle">
-            Access your account to continue shopping.
+            Build your account to start shopping.
           </p>
 
           <Form onSubmit={submitHandler} className="auth-form">
+            <Form.Group className="mb-3">
+              <Form.Label>Name</Form.Label>
+
+              <Form.Control
+                type="text"
+                placeholder="Enter name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+            </Form.Group>
+
             <Form.Group className="mb-3">
               <Form.Label>Email address</Form.Label>
 
@@ -51,11 +64,11 @@ const LoginPage = () => {
             </Form.Group>
 
             <Button type="submit" className="app-button">
-              Login
+              Create account
             </Button>
             <p className="auth-footer">
-              Don't have an account?{" "}
-              <Link to="/signup">Create one</Link>
+              Already have an account?{" "}
+              <Link to="/login">Login</Link>
             </p>
           </Form>
         </section>
@@ -64,5 +77,4 @@ const LoginPage = () => {
   );
 };
 
-
-export default LoginPage;
+export default SignUpPage;

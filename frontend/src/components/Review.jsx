@@ -2,94 +2,96 @@ import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useDispatch } from "react-redux";
-import { createReviewAction } from "../redux/actions/product/productActions";
 import { useParams } from "react-router-dom";
+import { createReviewAction } from "../redux/actions/product/productActions";
 
 const ratings = [
-  {
-    value: "1",
-    name: "1. Malo",
-  },
-  {
-    value: "2",
-    name: "2. Regular",
-  },
-  {
-    value: "3",
-    name: "3. Bueno",
-  },
-  {
-    value: "4",
-    name: "4. Muy bueno",
-  },
-  {
-    value: "5",
-    name: "5. Excelente",
-  },
+  { value: "1", name: "1. Malo" },
+  { value: "2", name: "2. Regular" },
+  { value: "3", name: "3. Bueno" },
+  { value: "4", name: "4. Muy bueno" },
+  { value: "5", name: "5. Excelente" },
 ];
 
 const Review = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
-  const user = JSON.parse(localStorage.getItem("user"));
+
+  const storedUser = localStorage.getItem("user");
+  const user = storedUser ? JSON.parse(storedUser) : null;
 
   const [dataReview, setDataReview] = useState({
-    rating: "",
+    rating: "5",
     comment: "",
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createReviewAction(user.token, dataReview, id));
-  };
 
-  const handleChange = (e) => {
-    const { name, value, checked, type } = e.target;
+    if (!user?.token) {
+      alert("You need to log in before submitting a review.");
+      return;
+    }
+
+    dispatch(createReviewAction(user.token, dataReview, id));
+
     setDataReview({
-      ...dataReview,
-      [name]: type === "checkbox" ? checked : value,
+      rating: "5",
+      comment: "",
     });
   };
 
-  return (
-    <>
-      <h5 className="mt-2">Write a review</h5>
+  const handleChange = (e) => {
+    const { name, value } = e.target;
 
-      <Form onSubmit={handleSubmit}>
-        <Form.Group className="mb-2" controlId="formGridRating">
-          <Form.Label className="mt-2">Rating</Form.Label>
-          <Form.Control
-            as="select"
-            rows={3}
+    setDataReview((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  return (
+    <div className="review-form-card">
+      <h3 className="review-form-card__title">Write a review</h3>
+      <p className="review-form-card__text">
+        Share your experience with this product.
+      </p>
+
+      <Form onSubmit={handleSubmit} className="review-form">
+        <Form.Group className="mb-3" controlId="reviewRating">
+          <Form.Label className="review-form__label">Rating</Form.Label>
+          <Form.Select
             name="rating"
-            className="form-control mb-2"
             value={dataReview.rating}
             onChange={handleChange}
+            className="review-form__control"
           >
             {ratings.map((rating) => (
               <option key={rating.value} value={rating.value}>
                 {rating.name}
               </option>
             ))}
-          </Form.Control>
+          </Form.Select>
         </Form.Group>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlComment">
-          <Form.Label className="mt-2">Comment</Form.Label>
+
+        <Form.Group className="mb-4" controlId="reviewComment">
+          <Form.Label className="review-form__label">Comment</Form.Label>
           <Form.Control
             as="textarea"
-            rows={3}
+            rows={5}
             name="comment"
-            placeholder="Enter comment"
-            className="form-control mb-2"
-            onChange={handleChange}
+            placeholder="Tell us what you liked or disliked..."
             value={dataReview.comment}
+            onChange={handleChange}
+            className="review-form__control"
           />
         </Form.Group>
-        <Button className="mb-4 mt-3 col-12" variant="dark" type="submit">
+
+        <Button className="app-button w-100" type="submit">
           Send review
         </Button>
       </Form>
-    </>
+    </div>
   );
 };
 

@@ -1,12 +1,11 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Card } from "react-bootstrap";
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
+import { Card, Row, Col, Button, Container } from "react-bootstrap";
 import Rating from "react-rating";
 
 import { useDispatch, useSelector } from "react-redux";
 import { productById } from "../redux/actions/productActions";
+
 import Review from "../components/Review";
 import ReviewList from "../components/ReviewList";
 import Loader from "../components/Loader";
@@ -15,150 +14,131 @@ const ProductPage = () => {
   const dispatch = useDispatch();
 
   const productFoundById = useSelector((state) => state.productFoundById);
-  const { loading, error, productByIdFound ={} } = productFoundById;
-  const { id } = useParams();
+  const { loading, error, productByIdFound = {} } = productFoundById;
 
-  console.log(loading);
+  const { id } = useParams();
 
   useEffect(() => {
     dispatch(productById(id));
   }, [dispatch, id]);
 
-  
   return (
-    <>
-      <Row>
-        <Col xs={6} md={4}>
-          <img
-            className="w-100"
-            src={productByIdFound?.image}
-            alt={productByIdFound?.name || "Product"}
-          />
-        </Col>
-        <Col xs={6} md={4}>
-          <Card className="my-3 p-3 rounded">
-            <Card.Body>
-              <Card.Title as="div">
-                <strong>{productByIdFound?.name}</strong>
-              </Card.Title>
-              <Card.Text as="h3">Price: ${productByIdFound?.price}</Card.Text>
-              <Card.Text as="div">
-                <Rating
-                  placeholderRating={productByIdFound?.ratings}
-                  readonly={true}
-                  emptySymbol={
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      fill="currentColor"
-                      className="bi bi-star"
-                      viewBox="0 0 16 16"
-                    >
-                      <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" />
-                    </svg>
-                  }
-                  fullSymbol={
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      fill="currentColor"
-                      className="bi bi-star-fill"
-                      viewBox="0 0 16 16"
-                    >
-                      <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
-                    </svg>
-                  }
-                  placeholderSymbol={
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      fill="currentColor"
-                      className="bi bi-star-fill"
-                      viewBox="0 0 16 16"
-                    >
-                      <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
-                    </svg>
-                  }
-                />
-              </Card.Text>
-              <Card.Text>
-                Description: {productByIdFound?.description}
-              </Card.Text>
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col xs={6} md={4}>
-          <Card className="my-3 p-3 rounded">
-            <Card.Body>
-              <Card.Title as="div">
-                <strong>{productByIdFound?.name}</strong>
-              </Card.Title>
-              <Card.Text as="h3">Price: ${productByIdFound?.price}</Card.Text>
-              <Card.Text as="div">
-                <Rating
-                  placeholderRating={productByIdFound?.ratings}
-                  readonly={true}
-                  emptySymbol={
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      fill="currentColor"
-                      className="bi bi-star"
-                      viewBox="0 0 16 16"
-                    >
-                      <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" />
-                    </svg>
-                  }
-                  fullSymbol={
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      fill="currentColor"
-                      className="bi bi-star-fill"
-                      viewBox="0 0 16 16"
-                    >
-                      <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
-                    </svg>
-                  }
-                  placeholderSymbol={
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      fill="currentColor"
-                      className="bi bi-star-fill"
-                      viewBox="0 0 16 16"
-                    >
-                      <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
-                    </svg>
-                  }
-                />
-              </Card.Text>
-              <Card.Text>
-                Description: {productByIdFound?.description}
-              </Card.Text>
-            </Card.Body>
-          </Card>
-        </Col>
-        <Row>
-          {loading ? (
-            <Loader />
-          ) : (
-            productByIdFound?.reviews?.map((review) => (
-              <Col key={review._id} sm={12} md={6} lg={4} xl={3}>
-                <ReviewList review={review} />
+    <main className="page-shell">
+      <Container>
+        {loading ? (
+          <Loader />
+        ) : error ? (
+          <p className="app-muted">{error}</p>
+        ) : (
+          <>
+            {/* PRODUCT SECTION */}
+            <Row className="g-4 align-items-start mb-5">
+              {/* IMAGE */}
+              <Col lg={5}>
+                <div className="product-image-wrap">
+                  <img
+                    className="w-100 product-image"
+                    src={productByIdFound?.image}
+                    alt={productByIdFound?.name}
+                  />
+                </div>
               </Col>
-            ))
-          )}
-        </Row>
-        <Review />
-      </Row>
-    </>
+
+              {/* PRODUCT INFO */}
+              <Col lg={4}>
+                <div className="product-info-block">
+                  <h1 className="product-title">{productByIdFound?.name}</h1>
+
+                  <div className="product-rating mb-3">
+                    <Rating
+                      placeholderRating={productByIdFound?.ratings}
+                      readonly
+                      emptySymbol={<span className="star">☆</span>}
+                      fullSymbol={<span className="star">★</span>}
+                      placeholderSymbol={<span className="star">★</span>}
+                    />
+                  </div>
+
+                  <h3 className="product-price mb-3">
+                    ${productByIdFound?.price}
+                  </h3>
+
+                  <p className="product-description">
+                    {productByIdFound?.description}
+                  </p>
+                </div>
+              </Col>
+
+              {/* PURCHASE CARD */}
+              <Col lg={3}>
+                <div className="purchase-card-wrap">
+                  <Card className="purchase-card p-3">
+                    <Row className="mb-2">
+                      <Col>Price:</Col>
+                      <Col className="text-end">
+                        <strong>${productByIdFound?.price}</strong>
+                      </Col>
+                    </Row>
+
+                    <Row className="mb-3">
+                      <Col>Status:</Col>
+                      <Col className="text-end">
+                        {productByIdFound?.countInStock > 0
+                          ? "In Stock"
+                          : "Out of Stock"}
+                      </Col>
+                    </Row>
+
+                    <Button
+                      className="app-button w-100"
+                      disabled={productByIdFound?.countInStock === 0}
+                    >
+                      Add to Cart
+                    </Button>
+                  </Card>
+                </div>
+              </Col>
+            </Row>
+
+            {/* REVIEWS FULL WIDTH */}
+            <section className="reviews-section">
+              <div className="section-heading">
+                <div>
+                  <span className="section-kicker">Feedback</span>
+                  <h2 className="section-title">Customer Reviews</h2>
+                </div>
+              </div>
+
+              {productByIdFound?.reviews?.length ? (
+                <Row className="g-4 mb-5">
+                  {productByIdFound.reviews.map((review) => (
+                    <Col key={review._id} md={6} lg={4}>
+                      <ReviewList review={review} />
+                    </Col>
+                  ))}
+                </Row>
+              ) : (
+                <p className="app-muted mb-5">No reviews yet.</p>
+              )}
+            </section>
+
+            {/* REVIEW FORM FULL WIDTH */}
+            <section className="review-form-section">
+              <div className="section-heading">
+                <div>
+                  <span className="section-kicker">Write</span>
+                  <h2 className="section-title">Leave a Review</h2>
+                </div>
+              </div>
+
+              <div className="review-form-wrap">
+                <Review />
+              </div>
+            </section>
+          </>
+        )}
+      </Container>
+    </main>
   );
 };
 
